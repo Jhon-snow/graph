@@ -1,0 +1,68 @@
+import java.util.*;
+class Graph {
+    
+    private int V;
+    private ArrayList<Integer> adj[];
+    private int c[][];
+    //constructor
+    Graph(int n){
+        V=n;
+        c=new int[V][V];
+        adj=new ArrayList[V];
+        for(int i=0;i<n;i++)
+            adj[i]=new ArrayList<>();
+    }
+    
+    void addEdge(int v,int w){
+        adj[v].add(w);
+    }
+    
+  
+    
+    void dfs(int v,int w){
+        c[v][w]=1;//mark node as visited
+        for(int a:adj[w]){
+            if(c[v][a]==0)
+                dfs(v,a);//access all nodes that are accessable from current node
+        }
+    }
+    
+   void transistiveclosure(){
+       for (int i = 0; i < V; i++) 
+            dfs(i, i); 
+            for(int i=0;i<V;i++){
+                 for(int j=0;j<V;j++){
+                   System.out.print(c[i][j]+" ");
+              }
+          }
+      
+       
+   }
+    
+    
+	public static void main (String[] args) {
+	    Scanner scan=new Scanner(System.in);
+	    int t=scan.nextInt();
+	    while(t-->0){
+	        int n=scan.nextInt();
+	        int arr[][]=new int[n][n];
+	        for(int i=0;i<n;i++){
+	            for(int j=0;j<n;j++){
+	                arr[i][j]=scan.nextInt();
+	            }
+	        }
+	          Graph g = new Graph(n); 
+  for(int i=0;i<n;i++){
+      for(int j=0;j<n;j++){
+          if(arr[i][j]==1)
+           g.addEdge(i, j); 
+      }
+  }
+    
+       // g.addEdge(3, 3); 
+        g.transistiveclosure(); 
+        System.out.println();
+	    }
+		      
+	}
+}
