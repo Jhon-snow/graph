@@ -1,0 +1,74 @@
+import java.util.*;
+public class Graph {
+   
+     static int V;
+    static boolean visited[];
+    static ArrayList<Integer>arr[];
+    static int count=0;
+    //static int minimu
+   static  int dis[];
+    static int vis[];
+    Graph(int n){
+        V= n;
+        visited=new boolean[V];
+        arr=new ArrayList[V];
+        dis=new int[V];
+        vis=new int[V];
+        for (int i = 0; i < V; i++) { 
+        dis[i] = Integer.MAX_VALUE; 
+        vis[i] = -1; 
+    }
+        for(int i=0;i<V;i++)
+            arr[i]=new ArrayList<>();
+    }
+   
+   
+    static void join(int u,int v){
+        arr[u].add(v);
+        arr[v].add(u);
+    }
+    static void bfs(int i){
+        count=0;
+        dis[0]=0;
+        dis[1]=0;
+        Queue <Integer>q=new LinkedList<>();
+        q.add(i);
+        visited[i]=true;
+        while(q.size()!=0){
+            int nn=q.size();
+            while(nn-->0){
+                int num=q.poll();
+                Iterator <Integer>itr=arr[num].listIterator();
+                while(itr.hasNext()){
+                    int val=itr.next();
+                    
+                    if(!visited[val])
+                    {
+                        dis[val]=dis[num]+1;
+                        vis[i]=num;
+                        q.add(val);
+                        visited[val]=true;
+                        if(val==V-1) return;
+                    }
+                }
+            }
+       // count++;
+        }
+    }
+    public static void main(String args[] ) throws Exception {
+       Scanner scan=new Scanner(System.in);
+       int t=scan.nextInt();
+       while(t-->0){
+           int n=scan.nextInt();
+           int m=scan.nextInt();
+          Graph g=new  Graph(n+1);
+           for(int i=0;i<m;i++){
+               int u=scan.nextInt();
+               int v=scan.nextInt();
+               join(u,v);
+           }
+                    bfs(1);
+                    System.out.println(dis[n]);
+       }
+    }
+}
