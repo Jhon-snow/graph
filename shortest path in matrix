@@ -1,0 +1,98 @@
+import java.util.*;
+class TestClass {
+    
+    
+    
+    
+   static class pair{
+        int a;
+        int b;
+        pair(int a,int b){
+            this.a=a;
+            this.b=b;
+        }
+    }
+    
+   static boolean visited[][];
+   static int dis[][];
+   static Character arr[][];
+   
+   
+   static void bfs(int x,int y,int n,int m){
+            visited=new boolean[n+1][m+1];
+       dis=new int[n+1][m+1];
+       
+    //   if(x==x2 && y==y2)
+    //   return 0;
+       int xpos[]=new int[]{-1,0,1,0};
+       int ypos[]=new int[]{0,1,0,-1};
+       
+       Queue<pair>q=new LinkedList<>();
+       q.add(new pair(x,y));
+       visited[x][y]=true;
+       //dis[x][y]=1;
+       
+       while(q.size()!=0){
+           pair val=q.poll();
+           int x1=val.a;
+           int y1=val.b;
+           for(int i=0;i<4;i++){
+               if( isvalid(x1+xpos[i],y1+ypos[i],n,m) && check(x1+xpos[i],y1+ypos[i],n,m))
+               {
+                   dis[x1+xpos[i]][y1+ypos[i]]=dis[x1][y1]+1;
+                       // vis[i]=num;
+                     //   System.out.println(Arrays.deepToString(dis));
+                       q.add(new pair(x1+xpos[i],y1+ypos[i]));
+                        visited[x1+xpos[i]][y1+ypos[i]]=true;
+                       // if(x1+xpos[i]==x2 && y1+ypos[i]==y2) 
+                       //     return dis[x2][y2];
+               }
+                
+           }
+       }//return -1;
+   }
+   
+   
+   static boolean check(int x,int y,int n,int m){
+     //  System.out.println(Arrays.deepToString(visited));
+       if(!visited[x][y] && arr[x][y]!='*')
+        return true;
+        return false;
+   }
+   static boolean isvalid(int x,int y,int n,int m){
+       if(x<1|| x>n || y<1|| y>m)
+        return false;
+        return true;
+   }
+    
+    public static void main(String args[] ) throws Exception {
+       Scanner scan=new Scanner(System.in);
+       int n=scan.nextInt();
+       int m=scan.nextInt();
+       int q=scan.nextInt();
+       arr=new Character[n+1][m+1];
+       
+       for(int i=1;i<=n;i++){
+           String str=scan.next();
+          for(int j=1;j<=m;j++){
+              arr[i][j]=str.charAt(j-1);
+          }
+       }
+       //System.out.println(Arrays.deepToString(arr));
+       int x=scan.nextInt();
+       int y=scan.nextInt();
+       bfs(x,y,n,m);
+       for(int itr=0;itr<q;itr++){
+           int x2=scan.nextInt();
+           int y2=scan.nextInt();
+      if( (x==x2 && y==y2))
+       System.out.println(0 );
+       else if(dis[x2][y2]==0 )
+       System.out.println(-1);
+       else
+       System.out.println(dis[x2][y2] );
+       }
+      
+        
+    }
+}
